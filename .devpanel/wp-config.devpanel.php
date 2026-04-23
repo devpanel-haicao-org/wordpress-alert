@@ -38,12 +38,15 @@ define('WP_MEMORY_LIMIT',     '256M');
 define('WP_MAX_MEMORY_LIMIT', '512M');
 define('DISALLOW_FILE_EDIT',  true);
 
-// Set WP_HOME and WP_SITEURL from environment if available.
-$dp_hostname = getenv('DP_HOSTNAME');
-if ($dp_hostname) {
+// Set WP_HOME and WP_SITEURL dynamically from the current request.
+if (isset($_SERVER['HTTP_HOST'])) {
     $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    define('WP_HOME',    $scheme . '://' . $dp_hostname);
-    define('WP_SITEURL', $scheme . '://' . $dp_hostname);
+    $current_host = $_SERVER['HTTP_HOST'];
+    define('WP_HOME',    $scheme . '://' . $current_host);
+    define('WP_SITEURL', $scheme . '://' . $current_host);
+} elseif (getenv('DP_HOSTNAME')) {
+    define('WP_HOME',    'https://' . getenv('DP_HOSTNAME'));
+    define('WP_SITEURL', 'https://' . getenv('DP_HOSTNAME'));
 }
 
 // Absolute path to the WordPress directory.
