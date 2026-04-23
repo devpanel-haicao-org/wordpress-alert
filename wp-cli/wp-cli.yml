@@ -1,0 +1,8 @@
+# WP-CLI configuration for WordPress site.
+# See https://make.wordpress.org/cli/handbook/references/config/#config-files
+#
+# This file is used to configure WP-CLI when run from the project root.
+# It sets default options for the `wp` command.
+
+core download:
+  locale: en_US

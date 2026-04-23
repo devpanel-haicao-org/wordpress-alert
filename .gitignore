@@ -1,0 +1,14 @@
+/.devpanel/dumps/
+/.devpanel/modules/alert-bar/data.json
+/.editorconfig
+/.gitattributes
+/.vscode/
+/logs/
+/packages.json
+/wp-config.php
+/wp-content/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
