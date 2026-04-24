@@ -68,7 +68,7 @@ echo "Generate JSON Data successful."
 # 3. Include alert-bar.php to index.php file (DYNAMIC PATH COMPUTATION)
 # ==============================================================================
 # Get WEB_ROOT
-CURRENT_WEB_ROOT="${WEB_ROOT:-$APP_ROOT_DIR}"
+CURRENT_WEB_ROOT="${WEB_ROOT:-$APP_ROOT_DIR/web}"
 INDEX_FILE="$CURRENT_WEB_ROOT/index.php"
 
 if [ -f "$INDEX_FILE" ]; then
