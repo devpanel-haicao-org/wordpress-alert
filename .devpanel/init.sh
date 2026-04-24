@@ -31,25 +31,28 @@ if [ ! -f wp-config.php ]; then
     --dbname="${DB_NAME}" \
     --dbuser="${DB_USER}" \
     --dbpass="${DB_PASSWORD}" \
-    --dbhost="${DB_HOST}:${DB_PORT}" \
-    --extra-php <<PHP
-/** DevPanel Settings */
-define('DISALLOW_FILE_EDIT', true);
-define('WP_DEBUG', false);
-define('WP_DEBUG_LOG', true);
-define('WP_DEBUG_DISPLAY', false);
-define('WP_MEMORY_LIMIT', '256M');
-define('WP_MAX_MEMORY_LIMIT', '512M');
-PHP
+    --dbhost="${DB_HOST}:${DB_PORT}"
+  echo
+
+  # Include DevPanel settings override at the top of wp-config.php.
+  INCLUDE_LINE="require_once dirname(__FILE__) . '/.devpanel/wp-config.devpanel.php';"
+  sed -i "s|<?php|<?php\n${INCLUDE_LINE}\n|g" wp-config.php
+  echo "Included wp-config.devpanel.php into wp-config.php"
   echo
 fi
 
 #== Install WordPress.
 echo
+# Determine the site URL for installation.
+INSTALL_URL="http://localhost"
+if [ -n "${DP_HOSTNAME:-}" ]; then
+  INSTALL_URL="https://${DP_HOSTNAME}"
+fi
+
 if ! wp core is-installed 2>/dev/null; then
-  echo 'Install WordPress.'
+  echo "Install WordPress with URL: ${INSTALL_URL}"
   time wp core install \
-    --url="${WP_HOME:-http://localhost}" \
+    --url="${INSTALL_URL}" \
     --title="WordPress Site" \
     --admin_user="admin" \
     --admin_password="admin" \
